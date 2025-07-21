@@ -1,0 +1,471 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', monospace;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated Stars Background */
+.stars, .stars2, .stars3 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+}
+
+.stars {
+    background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><defs><radialGradient id="star"><stop offset="0%" stop-color="%23fff" stop-opacity="1"/><stop offset="100%" stop-color="%23fff" stop-opacity="0"/></radialGradient></defs><rect width="1" height="1" fill="url(%23star)" x="20" y="30"/><rect width="1" height="1" fill="url(%23star)" x="180" y="50"/><rect width="1" height="1" fill="url(%23star)" x="60" y="90"/><rect width="1" height="1" fill="url(%23star)" x="140" y="120"/><rect width="1" height="1" fill="url(%23star)" x="30" y="160"/><rect width="1" height="1" fill="url(%23star)" x="170" y="180"/></svg>') repeat;
+    animation: moveStars 50s linear infinite;
+}
+
+.stars2 {
+    background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><defs><radialGradient id="star2"><stop offset="0%" stop-color="%2300ffff" stop-opacity="1"/><stop offset="100%" stop-color="%2300ffff" stop-opacity="0"/></radialGradient></defs><rect width="2" height="2" fill="url(%23star2)" x="50" y="80"/><rect width="2" height="2" fill="url(%23star2)" x="200" y="120"/><rect width="2" height="2" fill="url(%23star2)" x="100" y="200"/></svg>') repeat;
+    animation: moveStars 100s linear infinite;
+}
+
+.stars3 {
+    background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><defs><radialGradient id="star3"><stop offset="0%" stop-color="%23ff00ff" stop-opacity="1"/><stop offset="100%" stop-color="%23ff00ff" stop-opacity="0"/></radialGradient></defs><rect width="3" height="3" fill="url(%23star3)" x="100" y="150"/><rect width="3" height="3" fill="url(%23star3)" x="300" y="250"/></svg>') repeat;
+    animation: moveStars 75s linear infinite;
+}
+
+@keyframes moveStars {
+    from { transform: translateY(0px); }
+    to { transform: translateY(-2000px); }
+}
+
+.game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.game-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #00ffff;
+    text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 15px 30px;
+    border-radius: 15px;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.timer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.timer-label {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.timer-value {
+    color: #00ff00;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+.restart-btn, .new-mission-btn {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.restart-btn:hover, .new-mission-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+}
+
+.card {
+    aspect-ratio: 1;
+    position: relative;
+    cursor: pointer;
+    perspective: 1000px;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 12px;
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.card-front {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.card-front::before {
+    content: '?';
+    color: #00ffff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00ffff;
+    animation: pulse 2s infinite;
+}
+
+.card-back {
+    background: linear-gradient(135deg, #0f3460, #16213e);
+    border: 2px solid #ff00ff;
+    transform: rotateY(180deg);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+}
+
+.card.matched {
+    animation: matchGlow 1s ease-in-out;
+}
+
+.card.matched .card-back {
+    border-color: #00ff00;
+    box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes matchGlow {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); box-shadow: 0 0 40px rgba(0, 255, 0, 0.8); }
+    100% { transform: scale(1); }
+}
+
+/* Space Icons */
+.icon-planet {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ff6b6b, #4ecdc4);
+    position: relative;
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+}
+
+.icon-planet::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -10px;
+    right: -10px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #fff, transparent);
+    border-radius: 50%;
+    transform: rotate(-20deg);
+}
+
+.icon-rocket {
+    width: 15px;
+    height: 40px;
+    background: linear-gradient(to bottom, #ff6b6b, #ffa500);
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    box-shadow: 0 0 10px rgba(255, 165, 0, 0.6);
+}
+
+.icon-rocket::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 15px solid #ff4500;
+}
+
+.icon-star {
+    width: 40px;
+    height: 40px;
+    background: #ffff00;
+    position: relative;
+    transform: rotate(45deg);
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.7);
+}
+
+.icon-star::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background: #ffff00;
+    transform: rotate(-90deg);
+}
+
+.icon-ufo {
+    width: 50px;
+    height: 20px;
+    background: linear-gradient(to bottom, #c0c0c0, #808080);
+    border-radius: 50px 50px 20px 20px;
+    position: relative;
+    box-shadow: 0 0 12px rgba(192, 192, 192, 0.6);
+}
+
+.icon-ufo::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 15px;
+    background: linear-gradient(to bottom, #00ffff, #0080ff);
+    border-radius: 50%;
+}
+
+.icon-galaxy {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ff00ff, #4b0082);
+    position: relative;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+}
+
+.icon-galaxy::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+}
+
+.icon-asteroid {
+    width: 35px;
+    height: 35px;
+    background: #8b4513;
+    border-radius: 40% 60% 30% 70%;
+    position: relative;
+    box-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+}
+
+.icon-comet {
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #fff, #87ceeb);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 10px rgba(135, 206, 235, 0.6);
+}
+
+.icon-comet::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -30px;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #87ceeb);
+    border-radius: 2px;
+    transform: translateY(-50%);
+}
+
+.icon-astronaut {
+    width: 30px;
+    height: 40px;
+    background: #fff;
+    border-radius: 50% 50% 0 0;
+    position: relative;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.icon-astronaut::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+}
+
+.game-complete {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.game-complete.show {
+    display: flex;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.completion-content {
+    text-align: center;
+    background: radial-gradient(ellipse, #1b2735, #090a0f);
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 50px rgba(0, 255, 0, 0.5);
+}
+
+.completion-content h2 {
+    color: #00ff00;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px #00ff00;
+}
+
+.completion-content p {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.final-time {
+    color: #00ffff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px #00ffff;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 1.8rem;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .game-board {
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .card-front::before {
+        font-size: 2rem;
+    }
+    
+    .completion-content {
+        margin: 20px;
+        padding: 30px 20px;
+    }
+    
+    .completion-content h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-board {
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .game-title {
+        font-size: 1.5rem;
+    }
+    
+    .timer-value {
+        font-size: 1.2rem;
+    }
+    
+    .restart-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
