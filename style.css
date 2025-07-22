@@ -14,36 +14,152 @@ body {
     position: relative;
 }
 
-/* Animated Stars Background */
+/* Animated Stars Background - Infinite Loop */
 .stars, .stars2, .stars3 {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 200vh;
     z-index: -1;
 }
 
 .stars {
     background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><defs><radialGradient id="star"><stop offset="0%" stop-color="%23fff" stop-opacity="1"/><stop offset="100%" stop-color="%23fff" stop-opacity="0"/></radialGradient></defs><rect width="1" height="1" fill="url(%23star)" x="20" y="30"/><rect width="1" height="1" fill="url(%23star)" x="180" y="50"/><rect width="1" height="1" fill="url(%23star)" x="60" y="90"/><rect width="1" height="1" fill="url(%23star)" x="140" y="120"/><rect width="1" height="1" fill="url(%23star)" x="30" y="160"/><rect width="1" height="1" fill="url(%23star)" x="170" y="180"/></svg>') repeat;
-    animation: moveStars 50s linear infinite;
+    animation: moveStarsInfinite 50s linear infinite;
 }
 
 .stars2 {
     background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><defs><radialGradient id="star2"><stop offset="0%" stop-color="%2300ffff" stop-opacity="1"/><stop offset="100%" stop-color="%2300ffff" stop-opacity="0"/></radialGradient></defs><rect width="2" height="2" fill="url(%23star2)" x="50" y="80"/><rect width="2" height="2" fill="url(%23star2)" x="200" y="120"/><rect width="2" height="2" fill="url(%23star2)" x="100" y="200"/></svg>') repeat;
-    animation: moveStars 100s linear infinite;
+    animation: moveStarsInfinite 100s linear infinite;
 }
 
 .stars3 {
     background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><defs><radialGradient id="star3"><stop offset="0%" stop-color="%23ff00ff" stop-opacity="1"/><stop offset="100%" stop-color="%23ff00ff" stop-opacity="0"/></radialGradient></defs><rect width="3" height="3" fill="url(%23star3)" x="100" y="150"/><rect width="3" height="3" fill="url(%23star3)" x="300" y="250"/></svg>') repeat;
-    animation: moveStars 75s linear infinite;
+    animation: moveStarsInfinite 75s linear infinite;
 }
 
-@keyframes moveStars {
-    from { transform: translateY(0px); }
-    to { transform: translateY(-2000px); }
+@keyframes moveStarsInfinite {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-100vh); }
 }
 
+/* Mode Selection Screen */
+.mode-selection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.mode-content {
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+.main-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #00ffff;
+    text-shadow: 0 0 30px #00ffff, 0 0 60px #00ffff;
+    margin-bottom: 10px;
+    letter-spacing: 4px;
+}
+
+.subtitle {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0.8;
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.mode-btn {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #00ffff;
+    border-radius: 20px;
+    padding: 30px;
+    width: 250px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', monospace;
+    color: #fff;
+}
+
+.mode-btn:hover {
+    transform: translateY(-10px);
+    border-color: #ff00ff;
+    box-shadow: 0 10px 30px rgba(255, 0, 255, 0.4);
+}
+
+.mode-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.mode-btn h3 {
+    color: #00ffff;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.mode-btn p {
+    opacity: 0.8;
+    font-size: 1rem;
+}
+
+.scores-section {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.scores-section h3 {
+    color: #00ff00;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+.score-columns {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.score-column {
+    flex: 1;
+    min-width: 200px;
+}
+
+.score-column h4 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.best-score {
+    color: #ffff00;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px #ffff00;
+}
+
+/* Game Container */
 .game-container {
     max-width: 800px;
     margin: 0 auto;
@@ -75,6 +191,8 @@ body {
     border-radius: 15px;
     border: 2px solid #00ffff;
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .timer {
@@ -96,7 +214,7 @@ body {
     text-shadow: 0 0 10px #00ff00;
 }
 
-.restart-btn, .new-mission-btn {
+.restart-btn, .back-btn, .new-mission-btn, .menu-btn {
     background: linear-gradient(45deg, #ff00ff, #00ffff);
     color: #000;
     border: none;
@@ -111,14 +229,13 @@ body {
     letter-spacing: 1px;
 }
 
-.restart-btn:hover, .new-mission-btn:hover {
+.restart-btn:hover, .back-btn:hover, .new-mission-btn:hover, .menu-btn:hover {
     transform: scale(1.05);
     box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
 }
 
 .game-board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
     gap: 15px;
     max-width: 600px;
     margin: 0 auto;
@@ -127,6 +244,16 @@ body {
     border-radius: 20px;
     border: 2px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+}
+
+.game-board.grid-4x4 {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 480px;
+}
+
+.game-board.grid-6x6 {
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 600px;
 }
 
 .card {
@@ -190,6 +317,22 @@ body {
     box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
 }
 
+/* 36-card game different colors */
+.game-board.grid-6x6 .card-front {
+    border-color: #ff6b00;
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
+}
+
+.game-board.grid-6x6 .card-front::before {
+    color: #ff6b00;
+    text-shadow: 0 0 10px #ff6b00;
+}
+
+.game-board.grid-6x6 .card-back {
+    border-color: #00ff88;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+
 .card.matched {
     animation: matchGlow 1s ease-in-out;
 }
@@ -210,7 +353,7 @@ body {
     100% { transform: scale(1); }
 }
 
-/* Space Icons */
+/* Space Icons - 16 card game */
 .icon-planet {
     width: 40px;
     height: 40px;
@@ -367,6 +510,172 @@ body {
     border-radius: 50%;
 }
 
+/* Additional icons for 36-card game */
+.icon-satellite {
+    width: 30px;
+    height: 30px;
+    background: #silver;
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+}
+
+.icon-satellite::before, .icon-satellite::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background: #gold;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.icon-satellite::before {
+    left: -25px;
+}
+
+.icon-satellite::after {
+    right: -25px;
+}
+
+.icon-blackhole {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #000, #4b0082, #000);
+    position: relative;
+    box-shadow: 0 0 20px rgba(75, 0, 130, 0.8);
+}
+
+.icon-nebula {
+    width: 45px;
+    height: 30px;
+    background: linear-gradient(45deg, #ff69b4, #9370db, #00ced1);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+}
+
+.icon-meteor {
+    width: 25px;
+    height: 25px;
+    background: #ff4500;
+    border-radius: 50% 0 50% 50%;
+    position: relative;
+    transform: rotate(-45deg);
+    box-shadow: 0 0 12px rgba(255, 69, 0, 0.6);
+}
+
+.icon-meteor::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    width: 20px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #ff4500);
+    transform: translateY(-50%);
+}
+
+.icon-spacestation {
+    width: 40px;
+    height: 20px;
+    background: #708090;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(112, 128, 144, 0.5);
+}
+
+.icon-spacestation::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15px;
+    height: 15px;
+    background: #708090;
+    border-radius: 50%;
+}
+
+.icon-wormhole {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+    position: relative;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.icon-pulsar {
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, #fff, #00ffff);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.8); }
+    50% { box-shadow: 0 0 30px rgba(0, 255, 255, 1); }
+}
+
+.icon-supernova {
+    width: 35px;
+    height: 35px;
+    background: radial-gradient(circle, #fff, #ff6b6b, #ffa500);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.7);
+}
+
+.icon-supernova::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+
+.icon-quasar {
+    width: 25px;
+    height: 40px;
+    background: linear-gradient(to bottom, #ff00ff, #00ffff);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.6);
+}
+
+.icon-quasar::before, .icon-quasar::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #fff, transparent);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.icon-quasar::before {
+    top: -5px;
+}
+
+.icon-quasar::after {
+    bottom: -5px;
+}
+
 .game-complete {
     position: fixed;
     top: 0;
@@ -392,6 +701,8 @@ body {
     border-radius: 20px;
     border: 2px solid #00ff00;
     box-shadow: 0 0 50px rgba(0, 255, 0, 0.5);
+    max-width: 500px;
+    width: 90%;
 }
 
 .completion-content h2 {
@@ -411,8 +722,40 @@ body {
     color: #00ffff;
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-shadow: 0 0 10px #00ffff;
+}
+
+.achievement {
+    background: rgba(255, 215, 0, 0.2);
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    animation: achievementGlow 2s ease-in-out infinite;
+}
+
+.achievement-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.achievement p {
+    color: #ffd700;
+    font-weight: 700;
+    text-shadow: 0 0 10px #ffd700;
+}
+
+@keyframes achievementGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+    50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+}
+
+.completion-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 @keyframes fadeIn {
@@ -422,6 +765,25 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .mode-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .mode-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .score-columns {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
     .game-title {
         font-size: 1.8rem;
     }
@@ -434,6 +796,15 @@ body {
     .game-board {
         gap: 10px;
         padding: 15px;
+        max-width: 400px;
+    }
+    
+    .game-board.grid-4x4 {
+        max-width: 320px;
+    }
+    
+    .game-board.grid-6x6 {
+        max-width: 400px;
     }
     
     .card-front::before {
@@ -448,6 +819,10 @@ body {
     .completion-content h2 {
         font-size: 2rem;
     }
+    
+    .completion-buttons {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 480px) {
@@ -456,15 +831,15 @@ body {
         padding: 10px;
     }
     
-    .game-title {
-        font-size: 1.5rem;
+    .main-title {
+        font-size: 2rem;
     }
     
     .timer-value {
         font-size: 1.2rem;
     }
     
-    .restart-btn {
+    .restart-btn, .back-btn {
         padding: 10px 20px;
         font-size: 0.9rem;
     }
