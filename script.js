@@ -8,10 +8,19 @@ class IntergalacticMemory {
         this.gameEnded = false;
         this.timer = 0;
         this.timerInterval = null;
+        this.currentMode = 16;
         
-        this.spaceIcons = [
+        this.spaceIcons16 = [
             'planet', 'rocket', 'star', 'ufo', 
             'galaxy', 'asteroid', 'comet', 'astronaut'
+        ];
+        
+        this.spaceIcons36 = [
+            'planet', 'rocket', 'star', 'ufo', 
+            'galaxy', 'asteroid', 'comet', 'astronaut',
+            'satellite', 'blackhole', 'nebula', 'meteor',
+            'spacestation', 'wormhole', 'pulsar', 'supernova',
+            'quasar', 'satellite'
         ];
         
         this.gameBoard = document.getElementById('gameBoard');
@@ -19,9 +28,19 @@ class IntergalacticMemory {
         this.restartBtn = document.getElementById('restartBtn');
         this.gameComplete = document.getElementById('gameComplete');
         this.finalTime = document.getElementById('finalTime');
+        this.modeSelection = document.getElementById('modeSelection');
+        this.gameContainer = document.getElementById('gameContainer');
         
-        this.initializeGame();
+        this.loadScores();
+        this.displayScores();
         this.setupEventListeners();
+    }
+    
+    startGame(mode) {
+        this.currentMode = mode;
+        this.modeSelection.style.display = 'none';
+        this.gameContainer.style.display = 'block';
+        this.initializeGame();
     }
     
     initializeGame() {
@@ -29,21 +48,29 @@ class IntergalacticMemory {
         this.shuffleCards();
         this.renderCards();
         this.resetTimer();
+        this.gameStarted = false;
+        this.gameEnded = false;
+        this.flippedCards = [];
+        this.matchedPairs = 0;
+        this.moves = 0;
     }
     
     createCards() {
         this.cards = [];
+        const icons = this.currentMode === 16 ? this.spaceIcons16 : this.spaceIcons36;
+        const pairsNeeded = this.currentMode / 2;
+        
         // Create pairs of cards
-        for (let i = 0; i < this.spaceIcons.length; i++) {
+        for (let i = 0; i < pairsNeeded; i++) {
             this.cards.push({
                 id: i * 2,
-                icon: this.spaceIcons[i],
+                icon: icons[i],
                 matched: false,
                 flipped: false
             });
             this.cards.push({
                 id: i * 2 + 1,
-                icon: this.spaceIcons[i],
+                icon: icons[i],
                 matched: false,
                 flipped: false
             });
@@ -59,6 +86,8 @@ class IntergalacticMemory {
     
     renderCards() {
         this.gameBoard.innerHTML = '';
+        this.gameBoard.className = `game-board ${this.currentMode === 16 ? 'grid-4x4' : 'grid-6x6'}`;
+        
         this.cards.forEach((card, index) => {
             const cardElement = this.createCardElement(card, index);
             this.gameBoard.appendChild(cardElement);
@@ -148,7 +177,7 @@ class IntergalacticMemory {
         this.matchedPairs++;
         
         // Check if game is complete
-        if (this.matchedPairs === this.spaceIcons.length) {
+        if (this.matchedPairs === this.currentMode / 2) {
             setTimeout(() => this.gameCompleted(), 500);
         }
     }
@@ -192,8 +221,23 @@ class IntergalacticMemory {
         this.gameEnded = true;
         this.stopTimer();
         
-        // Update final time display
-        this.finalTime.textContent = this.timerDisplay.textContent;
+        const finalTimeString = this.timerDisplay.textContent;
+        this.finalTime.textContent = finalTimeString;
+        
+        // Save score and check if it's a new best
+        const isNewBest = this.saveScore(this.timer);
+        
+        // Update completion message
+        const completionTitle = document.getElementById('completionTitle');
+        const achievement = document.getElementById('achievement');
+        
+        if (isNewBest) {
+            completionTitle.textContent = 'NEW RECORD ACHIEVED!';
+            achievement.style.display = 'block';
+        } else {
+            completionTitle.textContent = 'MISSION ACCOMPLISHED!';
+            achievement.style.display = 'none';
+        }
         
         // Show completion screen
         this.gameComplete.classList.add('show');
@@ -202,10 +246,50 @@ class IntergalacticMemory {
         this.createCelebrationEffect();
     }
     
+    saveScore(timeInSeconds) {
+        const bestKey = `best_${this.currentMode}`;
+        
+        // Get existing best time
+        let bestTime = parseInt(localStorage.getItem(bestKey) || '999999');
+        
+        // Check if new best
+        let isNewBest = false;
+        if (timeInSeconds < bestTime) {
+            bestTime = timeInSeconds;
+            isNewBest = true;
+            localStorage.setItem(bestKey, bestTime.toString());
+        }
+        
+        return isNewBest;
+    }
+    
+    loadScores() {
+        // Scores are loaded from localStorage when needed
+    }
+    
+    displayScores() {
+        // Display scores for both modes
+        [16, 36].forEach(mode => {
+            const bestKey = `best_${mode}`;
+            
+            const bestTime = parseInt(localStorage.getItem(bestKey) || '0');
+            
+            const bestScoreElement = document.getElementById(`bestScore${mode}`);
+            
+            // Display best score
+            if (bestTime > 0) {
+                const minutes = Math.floor(bestTime / 60);
+                const seconds = bestTime % 60;
+                const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                bestScoreElement.textContent = `Best: ${timeString}`;
+            }
+        });
+    }
+    
     createCelebrationEffect() {
         // Add some sparkle effects
         const sparkles = [];
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 30; i++) {
             const sparkle = document.createElement('div');
             sparkle.style.position = 'fixed';
             sparkle.style.width = '4px';
@@ -216,7 +300,7 @@ class IntergalacticMemory {
             sparkle.style.zIndex = '9999';
             sparkle.style.left = Math.random() * window.innerWidth + 'px';
             sparkle.style.top = Math.random() * window.innerHeight + 'px';
-            sparkle.style.animation = `sparkle 2s ease-out forwards`;
+            sparkle.style.animation = `sparkle 3s ease-out forwards`;
             
             document.body.appendChild(sparkle);
             sparkles.push(sparkle);
@@ -229,7 +313,7 @@ class IntergalacticMemory {
                     sparkle.parentNode.removeChild(sparkle);
                 }
             });
-        }, 2000);
+        }, 3000);
     }
     
     restartGame() {
@@ -248,11 +332,20 @@ class IntergalacticMemory {
         this.initializeGame();
     }
     
+    backToMenu() {
+        this.gameContainer.style.display = 'none';
+        this.modeSelection.style.display = 'flex';
+        this.gameComplete.classList.remove('show');
+        this.displayScores(); // Refresh scores display
+    }
+    
     setupEventListeners() {
         this.restartBtn.addEventListener('click', () => this.restartGame());
         
-        // Global restart function for completion screen
-        window.restartGame = () => this.restartGame();
+        // Global functions for buttons
+        window.startGame = (mode) => this.startGame(mode);
+        window.restartCurrentGame = () => this.restartGame();
+        window.backToMenu = () => this.backToMenu();
     }
 }
 
@@ -266,8 +359,8 @@ const sparkleKeyframes = `
         }
         50% {
             opacity: 1;
-            transform: scale(1) rotate(180deg);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+            transform: scale(1.5) rotate(180deg);
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.8);
         }
         100% {
             opacity: 0;
