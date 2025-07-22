@@ -11,10 +11,48 @@
     <div class="stars2"></div>
     <div class="stars3"></div>
     
-    <div class="game-container">
+    <!-- Game Mode Selection Screen -->
+    <div class="mode-selection" id="modeSelection">
+        <div class="mode-content">
+            <h1 class="main-title">INTERGALACTIC MEMORY</h1>
+            <p class="subtitle">Choose Your Mission Difficulty</p>
+            
+            <div class="mode-buttons">
+                <button class="mode-btn" onclick="startGame(16)">
+                    <div class="mode-icon">🚀</div>
+                    <h3>CADET MISSION</h3>
+                    <p>4x4 Grid (16 Cards)</p>
+                </button>
+                
+                <button class="mode-btn" onclick="startGame(36)">
+                    <div class="mode-icon">🛸</div>
+                    <h3>COMMANDER MISSION</h3>
+                    <p>6x6 Grid (36 Cards)</p>
+                </button>
+            </div>
+            
+            <div class="scores-section" id="scoresSection">
+                <h3>Mission Records</h3>
+                <div class="score-columns">
+                    <div class="score-column">
+                        <h4>Cadet (4x4)</h4>
+                        <div class="best-score" id="bestScore16">Best: --:--</div>
+                    </div>
+                    <div class="score-column">
+                        <h4>Commander (6x6)</h4>
+                        <div class="best-score" id="bestScore36">Best: --:--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Screen -->
+    <div class="game-container" id="gameContainer" style="display: none;">
         <header class="game-header">
             <h1 class="game-title">INTERGALACTIC MEMORY</h1>
             <div class="game-info">
+                <button class="back-btn" onclick="backToMenu()">← MENU</button>
                 <div class="timer">
                     <span class="timer-label">TIME:</span>
                     <span class="timer-value" id="timer">00:00</span>
@@ -27,12 +65,19 @@
         
         <div class="game-complete" id="gameComplete">
             <div class="completion-content">
-                <h2>MISSION ACCOMPLISHED!</h2>
+                <h2 id="completionTitle">MISSION ACCOMPLISHED!</h2>
                 <p>You've successfully mapped all cosmic pairs!</p>
                 <div class="final-time">
                     Final Time: <span id="finalTime">00:00</span>
                 </div>
-                <button class="new-mission-btn" onclick="restartGame()">NEW MISSION</button>
+                <div class="achievement" id="achievement" style="display: none;">
+                    <div class="achievement-icon">🏆</div>
+                    <p>NEW BEST TIME!</p>
+                </div>
+                <div class="completion-buttons">
+                    <button class="new-mission-btn" onclick="restartCurrentGame()">NEW MISSION</button>
+                    <button class="menu-btn" onclick="backToMenu()">MAIN MENU</button>
+                </div>
             </div>
         </div>
     </div>
