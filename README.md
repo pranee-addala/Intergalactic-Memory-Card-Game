@@ -36,8 +36,7 @@ Test your memory, race against the timer, and match all the intergalactic icons 
 
 ## 📸 Demo
 
-> _Live Demo Coming Soon_  
-(Screenshot or video preview can go here)
+https://intergalactic-memory-card-game.netlify.app/
 
 ---
 
